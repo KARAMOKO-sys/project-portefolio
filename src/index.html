@@ -1,57 +1,70 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>Portfolio Karamoko | Ingénieur Full-Stack & Tech Lead</title>
-  <base href="/">
-  
-  <!-- ✅ Viewport obligatoire pour le responsive -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Portfolio de Karamoko - Ingénieur Full-Stack & Tech Lead">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  
-  <!-- ✅ Bootstrap 5 CSS (INDISPENSABLE) -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  
-  <!-- ✅ Font Awesome 5 (pour les icônes) -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-  
-  <!-- ✅ Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- ✅ AOS Animation Library -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-</head>
-<body>
-  <app-root></app-root>
-  
-  <!-- ✅ Bootstrap JS Bundle (pour navbar, tooltips, etc.) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <!-- ✅ AOS Animation Library JS -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  
-  <!-- ✅ Initialisation des animations et tooltips -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialiser AOS
-      AOS.init({
-        duration: 800,
-        easing: 'ease-in-out',
-        once: true,
-        offset: 100
+  <head>
+    <meta charset="utf-8" />
+    <title>Portfolio Karamoko | Ingénieur Full-Stack & Tech Lead</title>
+    <base href="/" />
+
+    <!-- ✅ Viewport obligatoire pour le responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Portfolio de Karamoko - Ingénieur Full-Stack & Tech Lead" />
+
+    <meta name="google-site-verification" content="QqlfSyrg8R9I6-k8M15YhqMVFmJLP7GYHQMoPQrghJE" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- ✅ Bootstrap 5 CSS (INDISPENSABLE) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ Font Awesome 5 (pour les icônes) -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  </head>
+  <body>
+    <app-root></app-root>
+
+    <!-- ✅ Bootstrap JS Bundle (pour navbar, tooltips, etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ AOS Animation Library JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- ✅ Initialisation des animations et tooltips -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Initialiser AOS
+        AOS.init({
+          duration: 800,
+          easing: 'ease-in-out',
+          once: true,
+          offset: 100,
+        });
+
+        // Initialiser les tooltips Bootstrap
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipTriggerList.forEach((el) => {
+          try {
+            new bootstrap.Tooltip(el);
+          } catch (e) {
+            /* tooltip optionnel */
+          }
+        });
       });
-      
-      // Initialiser les tooltips Bootstrap
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipTriggerList.forEach(el => {
-        try {
-          new bootstrap.Tooltip(el);
-        } catch(e) { /* tooltip optionnel */ }
-      });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
