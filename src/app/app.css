@@ -1,0 +1,9 @@
+.btn-outline-white {
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.btn-outline-white:hover {
+  background-color: #fff;
+  color: #000; /* Texte noir au survol */
+}

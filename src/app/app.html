@@ -1,1872 +1,665 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <title>DETO Léandre KARAMOKO | Ingénieur Full-Stack & Tech Lead</title>
-    <!-- Bootstrap 5 + Font Awesome + Google Fonts -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <!-- AOS CSS (animations au scroll) -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      ::selection {
-        background: var(--red);
-        color: white;
-      }
-
-      :root {
-        --night-blue: #0a0e27;
-        --night-blue-light: #0f132e;
-        --night-blue-lighter: #14183a;
-        --red: #e74c3c;
-        --red-dark: #c0392b;
-        --red-light: #ff6b6b;
-        --white: #ffffff;
-        --white-90: rgba(255, 255, 255, 0.9);
-        --white-80: rgba(255, 255, 255, 0.8);
-        --white-70: rgba(255, 255, 255, 0.7);
-        --white-60: rgba(255, 255, 255, 0.6);
-        --gradient-red: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-        --gradient-night: linear-gradient(135deg, #0a0e27 0%, #0f132e 50%, #14183a 100%);
-        --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(231, 76, 60, 0.2);
-        --card-hover-shadow:
-          0 25px 40px -12px rgba(231, 76, 60, 0.35), 0 0 0 1px rgba(231, 76, 60, 0.5);
-      }
-
-      body {
-        font-family: 'Poppins', 'Segoe UI', sans-serif;
-        background: var(--gradient-night);
-        color: var(--white);
-        overflow-x: hidden;
-        scroll-behavior: smooth;
-        position: relative;
-      }
-
-      /* Animation de fond avec particules flottantes supplémentaires */
-      body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background:
-          radial-gradient(circle at 20% 50%, rgba(231, 76, 60, 0.05) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(231, 76, 60, 0.03) 0%, transparent 50%);
-        pointer-events: none;
-        z-index: 0;
-        animation: bgPulse 8s ease-in-out infinite;
-      }
-
-      @keyframes bgPulse {
-        0%,
-        100% {
-          opacity: 0.4;
-        }
-        50% {
-          opacity: 0.8;
-        }
-      }
-
-      /* Formes flottantes en arrière-plan */
-      .floating-shapes {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 0;
-        pointer-events: none;
-      }
-
-      .floating-shape {
-        position: absolute;
-        background: linear-gradient(135deg, rgba(231, 76, 60, 0.08), rgba(192, 57, 43, 0.03));
-        border-radius: 50%;
-        animation: floatShape 25s infinite ease-in-out;
-      }
-
-      @keyframes floatShape {
-        0%,
-        100% {
-          transform: translateY(0) translateX(0) rotate(0deg);
-        }
-        25% {
-          transform: translateY(-40px) translateX(30px) rotate(5deg);
-        }
-        50% {
-          transform: translateY(30px) translateX(-30px) rotate(-5deg);
-        }
-        75% {
-          transform: translateY(-30px) translateX(40px) rotate(3deg);
-        }
-      }
-
-      .floating-shape:nth-child(1) {
-        width: 300px;
-        height: 300px;
-        top: -100px;
-        left: -100px;
-        animation-duration: 20s;
-      }
-      .floating-shape:nth-child(2) {
-        width: 200px;
-        height: 200px;
-        bottom: 50px;
-        right: -50px;
-        animation-duration: 18s;
-        animation-delay: 2s;
-      }
-      .floating-shape:nth-child(3) {
-        width: 150px;
-        height: 150px;
-        top: 40%;
-        right: 15%;
-        animation-duration: 22s;
-        animation-delay: 4s;
-      }
-      .floating-shape:nth-child(4) {
-        width: 100px;
-        height: 100px;
-        bottom: 20%;
-        left: 10%;
-        animation-duration: 16s;
-        animation-delay: 1s;
-      }
-      .floating-shape:nth-child(5) {
-        width: 250px;
-        height: 250px;
-        top: 60%;
-        left: -80px;
-        animation-duration: 24s;
-        animation-delay: 3s;
-      }
-      .floating-shape:nth-child(6) {
-        width: 120px;
-        height: 120px;
-        top: 15%;
-        right: 30%;
-        animation-duration: 19s;
-        animation-delay: 5s;
-      }
-
-      /* Contenu principal */
-      main {
-        position: relative;
-        z-index: 1;
-      }
-
-      .section-card {
-        background: var(--white);
-        backdrop-filter: none;
-        margin: 40px 0;
-        padding: 40px;
-        border-radius: 28px;
-        border: none;
-        transition:
-          transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-          box-shadow 0.3s ease;
-        box-shadow: var(--card-shadow);
-        color: #0a0e27;
-        animation: fadeInUp 0.6s ease-out backwards;
-      }
-
-      .section-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--card-hover-shadow);
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .section-card .section-header h2,
-      .section-card .section-header h2 span {
-        color: #0a0e27;
-      }
-
-      .section-card .about-text,
-      .section-card p,
-      .section-card .timeline-content p,
-      .section-card .timeline-content h5,
-      .section-card .stat-label,
-      .section-card .skill-category h4,
-      .section-card .timeline-content h4,
-      .section-card .timeline-date,
-      .section-card .cert-item span,
-      .section-card .contact-item p,
-      .section-card .contact-item h5,
-      .section-card .skill-tag,
-      .section-card .project-front p,
-      .section-card .project-front h3 {
-        color: #1e1e2f;
-      }
-
-      .section-card .text-white-80,
-      .section-card .text-white-70,
-      .section-card .text-white-60 {
-        color: #2c2c3a !important;
-      }
-
-      .section-card .stat-card {
-        background: rgba(231, 76, 60, 0.08);
-        border: 1px solid rgba(231, 76, 60, 0.2);
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      }
-
-      .section-card .stat-number {
-        color: var(--red);
-      }
-
-      .section-card .timeline::before {
-        background: var(--red);
-      }
-      .section-card .timeline-content {
-        background: rgba(231, 76, 60, 0.05);
-        border: 1px solid rgba(231, 76, 60, 0.15);
-        transition: all 0.3s ease;
-      }
-      .section-card .timeline-content:hover {
-        transform: translateX(8px);
-      }
-      .section-card .skill-tag {
-        background: rgba(231, 76, 60, 0.1);
-        color: #0a0e27;
-        border: 1px solid rgba(231, 76, 60, 0.3);
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        display: inline-block;
-        padding: 8px 16px;
-        margin: 5px;
-        border-radius: 25px;
-        font-size: 0.85rem;
-        animation: skillFadeIn 0.5s ease-out backwards;
-      }
-      .skill-tag:nth-child(1) {
-        animation-delay: 0.05s;
-      }
-      .skill-tag:nth-child(2) {
-        animation-delay: 0.1s;
-      }
-      .skill-tag:nth-child(3) {
-        animation-delay: 0.15s;
-      }
-      .skill-tag:nth-child(4) {
-        animation-delay: 0.2s;
-      }
-      .skill-tag:nth-child(5) {
-        animation-delay: 0.25s;
-      }
-      .skill-tag:nth-child(6) {
-        animation-delay: 0.3s;
-      }
-      .skill-tag:nth-child(7) {
-        animation-delay: 0.35s;
-      }
-      .skill-tag:nth-child(8) {
-        animation-delay: 0.4s;
-      }
-      .skill-tag:nth-child(9) {
-        animation-delay: 0.45s;
-      }
-      .skill-tag:nth-child(10) {
-        animation-delay: 0.5s;
-      }
-
-      @keyframes skillFadeIn {
-        from {
-          opacity: 0;
-          transform: scale(0.8) translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-      }
-
-      .section-card .skill-tag:hover {
-        background: var(--gradient-red);
-        color: white;
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
-      }
-      .section-card .cert-item {
-        background: rgba(231, 76, 60, 0.05);
-        border: 1px solid rgba(231, 76, 60, 0.2);
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        border-radius: 12px;
-        overflow: hidden;
-      }
-      .section-card .cert-item:hover {
-        transform: translateY(-6px) scale(1.02);
-        background: rgba(231, 76, 60, 0.15);
-        border-color: var(--red);
-        box-shadow: 0 10px 25px rgba(231, 76, 60, 0.2);
-      }
-      .section-card .cert-item a {
-        text-decoration: none;
-        color: inherit;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 15px;
-        width: 100%;
-        height: 100%;
-      }
-      .section-card .cert-item i {
-        font-size: 1.8rem;
-        min-width: 40px;
-        text-align: center;
-        transition: all 0.3s ease;
-      }
-      .section-card .cert-item:hover i {
-        transform: scale(1.2) rotate(360deg);
-      }
-      .section-card .cert-item span {
-        color: #0a0e27;
-        font-size: 0.9rem;
-        font-weight: 500;
-        line-height: 1.3;
-        word-break: break-word;
-      }
-      .section-card .contact-item {
-        background: rgba(231, 76, 60, 0.05);
-        border: 1px solid rgba(231, 76, 60, 0.2);
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        border-radius: 12px;
-        overflow: hidden;
-      }
-      .section-card .contact-item:hover {
-        transform: translateY(-5px);
-        background: rgba(231, 76, 60, 0.15);
-        border-color: var(--red);
-        box-shadow: 0 10px 25px rgba(231, 76, 60, 0.15);
-      }
-      .section-card .contact-item a {
-        text-decoration: none;
-        color: inherit;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 18px;
-        width: 100%;
-        height: 100%;
-      }
-      .section-card .contact-item i {
-        font-size: 2rem;
-        min-width: 50px;
-        text-align: center;
-        color: var(--red);
-        transition: all 0.3s ease;
-      }
-      .section-card .contact-item:hover i {
-        transform: scale(1.2) rotate(360deg);
-      }
-      .section-card .contact-item h5 {
-        margin: 0;
-        font-size: 1rem;
-        font-weight: 600;
-      }
-      .section-card .contact-item p {
-        margin: 0;
-        font-size: 0.85rem;
-        word-break: break-word;
-      }
-      .section-card .contact-item div {
-        flex: 1;
-      }
-      .section-card .project-front {
-        background: rgba(255, 255, 240, 0.98);
-        border: 1px solid rgba(231, 76, 60, 0.3);
-        transition: all 0.3s ease;
-      }
-      .section-card .project-front h3,
-      .section-card .project-front p {
-        color: #0a0e27;
-      }
-      .section-line {
-        background: var(--red);
-        height: 3px;
-        width: 60px;
-        margin: 15px auto 0;
-        border-radius: 3px;
-        animation: lineExpand 1s ease-out;
-      }
-
-      @keyframes lineExpand {
-        from {
-          width: 0;
-          opacity: 0;
-        }
-        to {
-          width: 60px;
-          opacity: 1;
-        }
-      }
-
-      .section-icon {
-        background: var(--gradient-red);
-        box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px;
-        font-size: 1.8rem;
-        color: white;
-        animation: iconFloat 3s ease-in-out infinite;
-        transition: all 0.3s ease;
-      }
-
-      .section-icon:hover {
-        transform: scale(1.1) rotate(360deg);
-      }
-
-      @keyframes iconFloat {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-      }
-
-      .btn-red {
-        background: var(--gradient-red);
-        box-shadow: 0 6px 14px rgba(231, 76, 60, 0.3);
-        border: none;
-        padding: 12px 30px;
-        border-radius: 30px;
-        font-weight: 600;
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .btn-red::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.5s ease;
-      }
-
-      .btn-red:hover::before {
-        left: 100%;
-      }
-
-      .btn-red:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 25px rgba(231, 76, 60, 0.4);
-        color: white;
-      }
-
-      .hero-section {
-        background: var(--gradient-night);
-        color: var(--white);
-        position: relative;
-        overflow: hidden;
-        padding: 80px 0 120px;
-      }
-
-      .sticky-nav {
-        background: rgba(10, 14, 39, 0.96);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--red);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        transition: all 0.3s ease;
-      }
-
-      .sticky-nav.scrolled {
-        background: rgba(10, 14, 39, 0.98);
-        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
-      }
-
-      .nav-link {
-        color: var(--white-80) !important;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        position: relative;
-      }
-
-      .nav-link:hover {
-        color: var(--red) !important;
-        transform: translateY(-2px);
-      }
-
-      .nav-link.active {
-        color: var(--red) !important;
-        font-weight: 600;
-      }
-
-      .nav-link::after {
-        content: '';
-        position: absolute;
-        bottom: -5px;
-        left: 50%;
-        width: 0;
-        height: 2px;
-        background: var(--red);
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-      }
-
-      .nav-link:hover::after,
-      .nav-link.active::after {
-        width: 80%;
-      }
-
-      .navbar-brand {
-        color: white !important;
-        font-size: 1.5rem;
-        transition: all 0.3s ease;
-      }
-
-      .navbar-brand:hover {
-        transform: scale(1.05);
-      }
-
-      .footer {
-        background: #060a1a;
-        padding: 40px 0;
-        margin-top: 60px;
-      }
-
-      @media (max-width: 768px) {
-        .section-card {
-          padding: 25px;
-        }
-        .hero-section {
-          padding: 60px 0 80px;
-        }
-        .profile-img {
-          width: 150px;
-          height: 150px;
-        }
-        h1.display-4 {
-          font-size: 2rem;
-        }
-        .cert-grid {
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
-        }
-        .contact-grid {
-          grid-template-columns: 1fr !important;
-        }
-        .project-card-3d {
-          height: 280px;
-        }
-        .section-card .cert-item a {
-          gap: 8px;
-        }
-        .section-card .cert-item i {
-          font-size: 1.4rem;
-          min-width: 30px;
-        }
-        .section-card .cert-item span {
-          font-size: 0.8rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .hero-buttons .btn {
-          display: block;
-          width: 100%;
-          margin: 10px 0 !important;
-        }
-        .hero-buttons .btn-red {
-          margin-right: 0 !important;
-        }
-        .contact-item a {
-          padding: 12px;
-          gap: 10px;
-        }
-        .contact-item i {
-          font-size: 1.5rem;
-          min-width: 35px;
-        }
-        .contact-item h5 {
-          font-size: 0.9rem;
-        }
-        .contact-item p {
-          font-size: 0.75rem;
-        }
-      }
-
-      .project-card-3d {
-        position: relative;
-        height: 320px;
-        cursor: pointer;
-        transform-style: preserve-3d;
-        transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      }
-
-      .project-card-3d:hover {
-        transform: rotateY(180deg);
-      }
-
-      .project-front,
-      .project-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        border-radius: 20px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-      }
-
-      .project-front {
-        background: white;
-        transform: rotateY(0deg);
-        box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
-      }
-
-      .project-front .project-icon i {
-        transition: all 0.3s ease;
-      }
-
-      .project-front:hover .project-icon i {
-        transform: scale(1.1);
-        animation: shakeIcon 0.5s ease;
-      }
-
-      @keyframes shakeIcon {
-        0%,
-        100% {
-          transform: rotate(0deg);
-        }
-        25% {
-          transform: rotate(10deg);
-        }
-        75% {
-          transform: rotate(-10deg);
-        }
-      }
-
-      .project-back {
-        background: var(--gradient-red);
-        color: white;
-        transform: rotateY(180deg);
-      }
-
-      .project-back p,
-      .project-back a {
-        color: white;
-      }
-
-      .project-tags {
-        display: flex;
-        gap: 8px;
-        margin-top: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .project-tag {
-        background: rgba(231, 76, 60, 0.15);
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: var(--red);
-      }
-
-      .timeline {
-        position: relative;
-        padding-left: 30px;
-      }
-
-      .timeline::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: linear-gradient(to bottom, var(--red), var(--red-light));
-      }
-
-      .timeline-item {
-        position: relative;
-        margin-bottom: 30px;
-        opacity: 0;
-        animation: timelineFadeIn 0.6s ease-out forwards;
-      }
-
-      .timeline-item:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .timeline-item:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .timeline-item:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-      .timeline-item:nth-child(4) {
-        animation-delay: 0.4s;
-      }
-
-      @keyframes timelineFadeIn {
-        from {
-          opacity: 0;
-          transform: translateX(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      .timeline-badge {
-        position: absolute;
-        left: -42px;
-        top: 0;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--gradient-red);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        transition: all 0.3s ease;
-        animation: badgePulse 2s infinite;
-      }
-
-      @keyframes badgePulse {
-        0%,
-        100% {
-          transform: scale(1);
-          box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4);
-        }
-        50% {
-          transform: scale(1.1);
-          box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
-        }
-      }
-
-      .timeline-badge:hover {
-        transform: scale(1.2) rotate(360deg);
-      }
-
-      .timeline-content {
-        background: rgba(231, 76, 60, 0.05);
-        border: 1px solid rgba(231, 76, 60, 0.15);
-        border-radius: 12px;
-        padding: 20px;
-        transition: all 0.3s ease;
-      }
-
-      .timeline-content:hover {
-        transform: translateX(8px);
-        border-color: var(--red-light);
-      }
-
-      .timeline-date {
-        font-weight: 600;
-        color: var(--red);
-        margin-bottom: 8px;
-      }
-
-      .stat-card {
-        text-align: center;
-        padding: 20px;
-        border-radius: 16px;
-        position: relative;
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        animation: statFadeIn 0.6s ease-out backwards;
-      }
-
-      .stat-card:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .stat-card:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .stat-card:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-
-      @keyframes statFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .stat-card:hover {
-        transform: translateY(-5px);
-      }
-
-      .stat-number {
-        font-size: 2.5rem;
-        font-weight: 700;
-        animation: countUp 1s ease-out;
-      }
-
-      @keyframes countUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .stat-label {
-        font-size: 0.9rem;
-        margin-top: 5px;
-      }
-
-      .stat-icon {
-        position: absolute;
-        bottom: 15px;
-        right: 15px;
-        font-size: 1.5rem;
-        opacity: 0.2;
-        transition: all 0.3s ease;
-      }
-
-      .stat-card:hover .stat-icon {
-        opacity: 0.35;
-        transform: scale(1.1) rotate(10deg);
-      }
-
-      .hero-buttons .btn {
-        transition: all 0.2s;
-      }
-
-      html {
-        scroll-padding-top: 80px;
-      }
-
-      .profile-wrapper {
-        position: relative;
-        display: inline-block;
-        animation: profileBounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      }
-
-      @keyframes profileBounceIn {
-        0% {
-          opacity: 0;
-          transform: scale(0.3);
-        }
-        50% {
-          opacity: 1;
-          transform: scale(1.05);
-        }
-        70% {
-          transform: scale(0.95);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      .profile-glow {
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
-        border-radius: 50%;
-        background: var(--gradient-red);
-        animation: rotate 3s linear infinite;
-        opacity: 0.7;
-      }
-
-      @keyframes rotate {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      .profile-img {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid white;
-        box-shadow: 0 5px 30px rgba(231, 76, 60, 0.3);
-        position: relative;
-        z-index: 1;
-        transition: transform 0.3s ease;
-      }
-
-      .profile-img:hover {
-        transform: scale(1.05) rotate(5deg);
-        box-shadow: 0 10px 40px rgba(231, 76, 60, 0.5);
-      }
-
-      .profile-badge {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        background: var(--gradient-red);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid white;
-        z-index: 2;
-        color: white;
-        animation: badgePulse 2s infinite;
-      }
-
-      .hero-wave {
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        line-height: 0;
-        z-index: 1;
-      }
-
-      .cert-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-
-      .contact-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-      }
-
-      @media (max-width: 992px) {
-        .cert-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (max-width: 768px) {
-        .cert-grid {
-          grid-template-columns: 1fr;
-        }
-        .contact-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .skill-category {
-        margin-bottom: 25px;
-      }
-
-      .skills-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 10px;
-      }
-
-      .btn-outline-white {
-        border: 2px solid white;
-        background: transparent;
-        color: white;
-        padding: 12px 30px;
-        border-radius: 30px;
-        transition: 0.3s;
-        text-decoration: none;
-        display: inline-block;
-      }
-
-      .btn-outline-white:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-3px);
-        color: white;
-      }
-
-      .text-red {
-        color: var(--red) !important;
-      }
-
-      .social-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        margin: 0 5px;
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        color: white;
-        text-decoration: none;
-      }
-
-      .social-icon:hover {
-        background: var(--red);
-        transform: translateY(-3px) rotate(360deg) scale(1.1);
-      }
-
-      .particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: #e74c3c;
-        border-radius: 50%;
-        opacity: 0.5;
-        animation: floatParticle 12s linear infinite;
-      }
-
-      @keyframes floatParticle {
-        0% {
-          transform: translateY(0) rotate(0deg);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.5;
-        }
-        90% {
-          opacity: 0.5;
-        }
-        100% {
-          transform: translateY(-100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
-
-      .particles-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 0;
-      }
-
-      .z-2 {
-        z-index: 2;
-      }
-
-      .position-relative {
-        position: relative;
-      }
-
-      .section-header {
-        text-align: center;
-        margin-bottom: 40px;
-      }
-
-      /* Animation d'entrée pour le titre */
-      .display-4 {
-        animation: titleGlow 2s ease-out;
-      }
-
-      @keyframes titleGlow {
-        0% {
-          opacity: 0;
-          text-shadow: 0 0 0 rgba(231, 76, 60, 0);
-        }
-        50% {
-          opacity: 0.5;
-          text-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
-        }
-        100% {
-          opacity: 1;
-          text-shadow: 0 0 0 rgba(231, 76, 60, 0);
-        }
-      }
-    </style>
-    <meta name="theme-color" content="#0a0e27" />
-  </head>
-  <body>
-    <div class="floating-shapes">
-      <div class="floating-shape"></div>
-      <div class="floating-shape"></div>
-      <div class="floating-shape"></div>
-      <div class="floating-shape"></div>
-      <div class="floating-shape"></div>
-      <div class="floating-shape"></div>
-    </div>
-
-    <main>
-      <header class="hero-section">
-        <div class="particles-container">
-          <div class="particle" style="top: 10%; left: 20%; animation-duration: 8s"></div>
-          <div
-            class="particle"
-            style="top: 30%; left: 80%; animation-duration: 12s; opacity: 0.3"
-          ></div>
-          <div class="particle" style="top: 50%; left: 15%; animation-duration: 15s"></div>
-          <div
-            class="particle"
-            style="top: 70%; left: 70%; animation-duration: 7s; opacity: 0.4"
-          ></div>
-          <div class="particle" style="top: 20%; left: 45%; animation-duration: 11s"></div>
-          <div class="particle" style="top: 85%; left: 35%; animation-duration: 9s"></div>
-          <div
-            class="particle"
-            style="top: 40%; left: 90%; animation-duration: 13s; opacity: 0.3"
-          ></div>
-          <div class="particle" style="top: 60%; left: 10%; animation-duration: 10s"></div>
+<!-- En-tête du portfolio -->
+<header class="hero-section">
+  <div class="particles-container">
+    <div class="particle" style="top: 10%; left: 20%; animation-duration: 8s"></div>
+    <div class="particle" style="top: 30%; left: 80%; animation-duration: 12s; opacity: 0.3"></div>
+    <div class="particle" style="top: 50%; left: 15%; animation-duration: 15s"></div>
+    <div class="particle" style="top: 70%; left: 70%; animation-duration: 7s; opacity: 0.4"></div>
+    <div class="particle" style="top: 20%; left: 45%; animation-duration: 11s"></div>
+    <div class="particle" style="top: 85%; left: 35%; animation-duration: 9s"></div>
+    <div class="particle" style="top: 40%; left: 90%; animation-duration: 13s; opacity: 0.3"></div>
+    <div class="particle" style="top: 60%; left: 10%; animation-duration: 10s"></div>
+  </div>
+  <div class="container position-relative z-2">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <div class="profile-wrapper">
+          <div class="profile-glow"></div>
+          <img src="profile.jpg" alt="DETO Léandre KARAMOKO" class="profile-img" />
+          <div class="profile-badge"><i class="fas fa-check-circle"></i></div>
         </div>
-        <div class="container position-relative z-2">
-          <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-              <div class="profile-wrapper">
-                <div class="profile-glow"></div>
-                <img src="profile.jpg" alt="DETO Léandre KARAMOKO" class="profile-img" />
-                <div class="profile-badge"><i class="fas fa-check-circle"></i></div>
-              </div>
-              <h1 class="display-4 fw-bold mt-4">
-                DETO Léandre <span class="text-red">KARAMOKO</span>
-              </h1>
-              <p class="lead text-white-80">
-                <i class="fas fa-code-branch me-2 text-red"></i>Ingénieur Full-Stack & Tech Lead |
-                4+ ans d'expérience | Architecture Microservices | DevOps | Fintech
-              </p>
-              <div class="hero-buttons mt-4">
-                <a href="#contact" class="btn btn-red btn-lg me-3"
-                  ><i class="fas fa-paper-plane me-2"></i>Me contacter</a
-                >
-                <a href="#projects" class="btn btn-outline-white btn-lg"
-                  ><i class="fas fa-project-diagram me-2"></i>Voir projets</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="hero-wave">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path
-              fill="#0a0e27"
-              fill-opacity="1"
-              d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-            ></path>
-          </svg>
-        </div>
-      </header>
-
-      <nav class="navbar navbar-expand-lg sticky-nav" id="mainNav">
-        <div class="container">
-          <a class="navbar-brand fw-bold" href="#"
-            ><i class="fas fa-laptop-code me-2 text-red"></i>KARAMOKO</a
+        <h1 class="display-4 fw-bold mt-4">DETO Léandre <span class="text-red">KARAMOKO</span></h1>
+        <p class="lead text-white-80">
+          <i class="fas fa-code-branch me-2 text-red"></i>{{ translations[currentLang]['hero_title']
+          }}
+        </p>
+        <div class="hero-buttons mt-4">
+          <a href="#contact" class="btn btn-red btn-lg me-3 rounded-pill"
+            ><i class="fas fa-paper-plane me-2"></i>{{ translations[currentLang]['hero_contact']
+            }}</a
           >
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
+          <a href="#projects" class="btn btn-outline-white btn-lg rounded-pill"
+            ><i class="fas fa-project-diagram me-2"></i>{{
+            translations[currentLang]['hero_projects'] }}</a
           >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="#about"
-                  ><i class="fas fa-user me-1 text-red"></i>À propos</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#skills"
-                  ><i class="fas fa-code me-1 text-red"></i>Compétences</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#experience"
-                  ><i class="fas fa-briefcase me-1 text-red"></i>Expérience</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#certifications"
-                  ><i class="fas fa-certificate me-1 text-red"></i>Certifications</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#projects"
-                  ><i class="fas fa-rocket me-1 text-red"></i>Projets</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#contact"
-                  ><i class="fas fa-envelope me-1 text-red"></i>Contact</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      <div class="container my-5">
-        <div class="row justify-content-center">
-          <div class="col-lg-10">
-            <section id="about" class="section-card">
-              <div class="section-header">
-                <div class="section-icon"><i class="fas fa-user-astronaut"></i></div>
-                <h2>À propos <span class="text-red">de moi</span></h2>
-                <div class="section-line"></div>
-              </div>
-              <div class="row align-items-center">
-                <div class="col-lg-12">
-                  <p class="about-text lead text-center" style="color: #0a0e27; font-weight: 500">
-                    Passionné par l'ingénierie logicielle et l'innovation, je combine expertise
-                    technique full-stack, leadership Agile et pratiques DevOps pour livrer des
-                    produits scalables, sécurisés et maintenables. Actuellement Tech Lead à SONEC
-                    AFRICA, je pilote des projets stratégiques pour le Ministère du Numérique.
-                  </p>
-                  <div class="row mt-5">
-                    <div class="col-md-4 mb-3">
-                      <div class="stat-card">
-                        <div class="stat-number">4+</div>
-                        <div class="stat-label">Années d'expérience</div>
-                        <i class="fas fa-calendar-alt stat-icon"></i>
-                      </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <div class="stat-card">
-                        <div class="stat-number">20+</div>
-                        <div class="stat-label">Projets livrés</div>
-                        <i class="fas fa-tasks stat-icon"></i>
-                      </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <div class="stat-card">
-                        <div class="stat-number">15+</div>
-                        <div class="stat-label">Certifications</div>
-                        <i class="fas fa-certificate stat-icon"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section id="skills" class="section-card">
-              <div class="section-header">
-                <div class="section-icon"><i class="fas fa-microchip"></i></div>
-                <h2>Compétences <span class="text-red">Techniques</span></h2>
-                <div class="section-line"></div>
-              </div>
-              <div class="skills-container">
-                <div class="skill-category">
-                  <h4><i class="fas fa-code text-red me-2"></i>Backend</h4>
-                  <div class="skills-list">
-                    <span class="skill-tag"
-                      ><i class="fab fa-java me-1"></i>Java 17 / Spring Boot</span
-                    ><span class="skill-tag"
-                      ><i class="fab fa-node-js me-1"></i>NestJS / Node.js</span
-                    ><span class="skill-tag"><i class="fab fa-php me-1"></i>Laravel / PHP</span
-                    ><span class="skill-tag"
-                      ><i class="fas fa-database me-1"></i>Microservices</span
-                    >
-                  </div>
-                </div>
-                <div class="skill-category">
-                  <h4><i class="fas fa-laptop-code text-red me-2"></i>Frontend</h4>
-                  <div class="skills-list">
-                    <span class="skill-tag"><i class="fab fa-angular me-1"></i>Angular 16+</span
-                    ><span class="skill-tag"><i class="fab fa-react me-1"></i>React 18</span
-                    ><span class="skill-tag"><i class="fab fa-vuejs me-1"></i>Vue.js 3</span
-                    ><span class="skill-tag"><i class="fab fa-flutter me-1"></i>Flutter 3.x</span
-                    ><span class="skill-tag"><i class="fab fa-js me-1"></i>TypeScript 5.x</span>
-                  </div>
-                </div>
-                <div class="skill-category">
-                  <h4><i class="fas fa-cloud text-red me-2"></i>DevOps & Cloud</h4>
-                  <div class="skills-list">
-                    <span class="skill-tag"
-                      ><i class="fab fa-docker me-1"></i>Docker / Kubernetes</span
-                    ><span class="skill-tag"><i class="fab fa-gitlab me-1"></i>GitLab CI/CD</span
-                    ><span class="skill-tag"><i class="fab fa-jenkins me-1"></i>Jenkins</span
-                    ><span class="skill-tag"><i class="fab fa-microsoft me-1"></i>Azure / AWS</span>
-                  </div>
-                </div>
-                <div class="skill-category">
-                  <h4><i class="fas fa-shield-alt text-red me-2"></i>Architecture & Sécurité</h4>
-                  <div class="skills-list">
-                    <span class="skill-tag"
-                      ><i class="fas fa-draw-polygon me-1"></i>Clean Architecture</span
-                    ><span class="skill-tag"><i class="fas fa-lock me-1"></i>COBIT 2019</span
-                    ><span class="skill-tag"
-                      ><i class="fas fa-shield-virus me-1"></i>OWASP Top 10</span
-                    ><span class="skill-tag"><i class="fab fa-react me-1"></i>Agile / Scrum</span>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section id="experience" class="section-card">
-              <div class="section-header">
-                <div class="section-icon"><i class="fas fa-briefcase"></i></div>
-                <h2>Expérience <span class="text-red">Professionnelle</span></h2>
-                <div class="section-line"></div>
-              </div>
-              <div class="timeline">
-                <div class="timeline-item">
-                  <div class="timeline-badge"><i class="fas fa-star"></i></div>
-                  <div class="timeline-content">
-                    <div class="timeline-date">Mars 2025 – Présent</div>
-                    <h4>Lead Tech</h4>
-                    <h5>
-                      <i class="fas fa-building me-2"></i
-                      ><a
-                        href="https://sonecafrica.com"
-                        target="_blank"
-                        style="color: var(--red); text-decoration: none"
-                        >SONEC AFRICA SA</a
-                      >
-                      | Abidjan
-                    </h5>
-                    <p>
-                      Pilotage technique de projets stratégiques avec le
-                      <a
-                        href="https://enseignement.gouv.ci"
-                        target="_blank"
-                        style="color: var(--red)"
-                        >Ministère du Numérique</a
-                      >. Conception d'architectures évolutives, cycle de vie complet de l'analyse à
-                      la production.
-                    </p>
-                  </div>
-                </div>
-                <div class="timeline-item">
-                  <div class="timeline-badge"><i class="fas fa-code"></i></div>
-                  <div class="timeline-content">
-                    <div class="timeline-date">Avr. 2023 – Oct. 2025</div>
-                    <h4>Lead Développeur Full-Stack</h4>
-                    <h5>
-                      <i class="fas fa-building me-2"></i
-                      ><a href="https://kyria-ci.com" target="_blank" style="color: var(--red)"
-                        >INEXA CI / Kyria</a
-                      >
-                    </h5>
-                    <p>
-                      Applications bancaires & institutionnelles critiques (LABFT, EVAL-FIN). APIs
-                      Spring Boot, interfaces Angular/React, standards internationaux.
-                    </p>
-                  </div>
-                </div>
-                <div class="timeline-item">
-                  <div class="timeline-badge"><i class="fas fa-chart-line"></i></div>
-                  <div class="timeline-content">
-                    <div class="timeline-date">Jan. 2023 – Oct. 2025</div>
-                    <h4>Consultant Full-Stack</h4>
-                    <h5>
-                      <i class="fas fa-building me-2"></i
-                      ><a
-                        href="https://growing-consulting.ch"
-                        target="_blank"
-                        style="color: var(--red)"
-                        >Growing Consulting (Suisse)</a
-                      >
-                      &
-                      <a
-                        href="https://proactive-solution.ch"
-                        target="_blank"
-                        style="color: var(--red)"
-                        >ProActive Solution</a
-                      >
-                    </h5>
-                    <p>
-                      Solutions bancaires suisses, déploiement sur environnements sécurisés. Projet
-                      EPI-DUI (suivi médical).
-                    </p>
-                  </div>
-                </div>
-                <div class="timeline-item">
-                  <div class="timeline-badge"><i class="fas fa-graduation-cap"></i></div>
-                  <div class="timeline-content">
-                    <div class="timeline-date">Mars 2022 – Jan. 2023</div>
-                    <h4>Développeur Full-Stack</h4>
-                    <h5>
-                      <i class="fas fa-building me-2"></i
-                      ><a href="https://synelia.com" target="_blank" style="color: var(--red)"
-                        >Smile Côte d'Ivoire / Synelia</a
-                      >
-                    </h5>
-                    <p>
-                      APIs REST Spring Boot, interfaces Angular/Flutter, intégration Mule ESB &
-                      WSO2.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section id="certifications" class="section-card">
-              <div class="section-header">
-                <div class="section-icon"><i class="fas fa-certificate"></i></div>
-                <h2>Certifications <span class="text-red">et Formations</span></h2>
-                <div class="section-line"></div>
-              </div>
-              <div class="cert-grid">
-                <div class="cert-item">
-                  <a
-                    href="https://www.udemy.com/certificate/UC-c913bf3a-c105-487a-b33c-80997737e1df/"
-                    target="_blank"
-                    ><i class="fas fa-shield-alt"></i><span>COBIT 2019 Foundation</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a
-                    href="https://learn.microsoft.com/fr-fr/users/karamokodetoleandre-8071/credentials/certification/azure-data-fundamentals"
-                    target="_blank"
-                    ><i class="fab fa-microsoft"></i><span>Microsoft Azure AZ-900</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a
-                    href="https://www.udemy.com/certificate/UC-0478fdd6-b46a-4a65-b249-2228ef43704c/"
-                    target="_blank"
-                    ><i class="fas fa-tasks"></i><span>Project Manager (Udemy)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a
-                    href="https://formation.force-n.sn/mod/customcert/my_certificates.php?userid=27969&certificateid=37&downloadcert=1"
-                    target="_blank"
-                    ><i class="fas fa-chart-bar"></i><span>Data Analyst (Force N)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a
-                    href="https://formation.force-n.sn/mod/customcert/verify_certificate.php?contextid=249821&code=ePpnMwfQ3e"
-                    target="_blank"
-                    ><i class="fas fa-robot"></i><span>IA & Machine Learning (Force N)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a
-                    href="https://formation.force-n.sn/mod/customcert/verify_certificate.php?contextid=248505&code=CcbkQsMBqF"
-                    target="_blank"
-                    ><i class="fab fa-angular"></i><span>Angular Frontend (Force N)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a href="https://www.sololearn.com/certificates/CC-BKZFJ5JV" target="_blank"
-                    ><i class="fab fa-python"></i><span>Python Intermediate (SoloLearn)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a href="https://www.sololearn.com/certificates/CC-0FNWKPB4" target="_blank"
-                    ><i class="fab fa-js"></i><span>JavaScript (SoloLearn)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a href="https://www.sololearn.com/certificates/CC-YYEMHSVT" target="_blank"
-                    ><i class="fab fa-python"></i><span>Python (SoloLearn)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a
-                    href="https://www.sololearn.com/certificates/course/en/25337188/1060/landscape/pdf"
-                    target="_blank"
-                    ><i class="fab fa-php"></i><span>PHP (SoloLearn)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a href="https://www.sololearn.com/Certificate/1092-25337188/pdf/" target="_blank"
-                    ><i class="fab fa-angular"></i><span>Angular + NestJS (SoloLearn)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a href="https://www.sololearn.com/Certificate/1014-25337188/pdf/" target="_blank"
-                    ><i class="fab fa-html5"></i><span>HTML (SoloLearn)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a href="https://www.sololearn.com/Certificate/1023-25337188/pdf/" target="_blank"
-                    ><i class="fab fa-css3-alt"></i><span>CSS (SoloLearn)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a
-                    href="https://certificate-staging.evidenz.io/check/15BFEE2C2D2318BFE311D32B4916F0DF62BE10BD8CF21C213174C2C80F733EDDRXJNU0R3clpYZEJsTWpWZmRJRVNsTDc0VXU1OFJLbVdzNnpCL01lRDNNQ2JxSTl0"
-                    target="_blank"
-                    ><i class="fab fa-bitcoin"></i><span>Blockchain (Binance Academy)</span></a
-                  >
-                </div>
-                <div class="cert-item">
-                  <a
-                    href="https://openclassrooms.com/fr/courses/2434016/certificate_example"
-                    target="_blank"
-                    ><i class="fab fa-java"></i><span>Java EE (OpenClassrooms)</span></a
-                  >
-                </div>
-              </div>
-              <div class="text-center mt-4">
-                <p class="text-white-80" style="color: #2c2c3a !important">
-                  <i class="fas fa-graduation-cap text-red me-2"></i>Formations suivies :
-                  <strong>Université Numérique Force N</strong> |
-                  <a href="https://2ie-edu.org" target="_blank" style="color: var(--red)">2iE</a> |
-                  <a href="https://inphb.ci" target="_blank" style="color: var(--red)">INPHB</a> |
-                  <a
-                    href="https://orange-digital-center.com"
-                    target="_blank"
-                    style="color: var(--red)"
-                    >Orange Digital Center</a
-                  >
-                </p>
-              </div>
-            </section>
-
-            <section id="projects" class="section-card">
-              <div class="section-header">
-                <div class="section-icon"><i class="fas fa-rocket"></i></div>
-                <h2>Projets <span class="text-red">Phares</span></h2>
-                <div class="section-line"></div>
-              </div>
-              <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                  <div class="project-card-3d">
-                    <div class="project-front">
-                      <div class="project-icon">
-                        <i class="fas fa-exchange-alt fa-3x text-red"></i>
-                      </div>
-                      <h3>OSKAR</h3>
-                      <p>Plateforme don/échange/vente</p>
-                      <div class="project-tags">
-                        <span class="project-tag">Angular</span
-                        ><span class="project-tag">Spring Boot</span>
-                      </div>
-                    </div>
-                    <div class="project-back">
-                      <p>IA de modération, assistant virtuel, 2FA, supervision intelligente.</p>
-                      <a
-                        href="https://oskar.mysonec.pro/"
-                        target="_blank"
-                        class="btn btn-sm btn-dark mt-2"
-                        >Voir le projet</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="project-card-3d">
-                    <div class="project-front">
-                      <div class="project-icon">
-                        <i class="fas fa-university fa-3x text-red"></i>
-                      </div>
-                      <h3>INFAS</h3>
-                      <p>Gestion concours infirmiers</p>
-                      <div class="project-tags">
-                        <span class="project-tag">Angular</span
-                        ><span class="project-tag">Spring Boot</span>
-                      </div>
-                    </div>
-                    <div class="project-back">
-                      <p>
-                        Gestion des inscriptions, paiements et prise de RDV. C'est le concours
-                        d'entre à l'école de INFAS pour les infirmier
-                      </p>
-                      <a
-                        href="https://infas.ciconcours.com"
-                        target="_blank"
-                        class="btn btn-sm btn-dark mt-2"
-                        >Voir le projet</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="project-card-3d">
-                    <div class="project-front">
-                      <div class="project-icon">
-                        <i class="fas fa-chart-line fa-3x text-red"></i>
-                      </div>
-                      <h3>INSFS</h3>
-                      <p>Gestion concours enseignants</p>
-                      <div class="project-tags">
-                        <span class="project-tag">React</span
-                        ><span class="project-tag">NestJS</span>
-                      </div>
-                    </div>
-                    <div class="project-back">
-                      <p>
-                        Plateforme de gestion de concours pour établissement scolaire et
-                        préscolaire.
-                      </p>
-                      <a
-                        href="https://insfs.ciconcours.com"
-                        target="_blank"
-                        class="btn btn-sm btn-dark mt-2"
-                        >Voir le projet</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="project-card-3d">
-                    <div class="project-front">
-                      <div class="project-icon"><i class="fas fa-leaf fa-3x text-red"></i></div>
-                      <h3>Orange Summer</h3>
-                      <p>Production pavés plastiques</p>
-                      <div class="project-tags">
-                        <span class="project-tag">IoT</span
-                        ><span class="project-tag">GreenTech</span>
-                      </div>
-                    </div>
-                    <div class="project-back">
-                      <p>
-                        Système autonome + app mobile. Startup financée par Orange Digital Center.
-                      </p>
-                      <a
-                        href="https://osc.gos.orange.com/"
-                        target="_blank"
-                        class="btn btn-sm btn-dark mt-2"
-                        >Voir le projet</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="project-card-3d">
-                    <div class="project-front">
-                      <div class="project-icon">
-                        <i class="fas fa-mobile-alt fa-3x text-red"></i>
-                      </div>
-                      <h3>EPI-DUI</h3>
-                      <p>Suivi médical cliniques</p>
-                      <div class="project-tags">
-                        <span class="project-tag">Flutter</span
-                        ><span class="project-tag">Laravel</span>
-                      </div>
-                    </div>
-                    <div class="project-back">
-                      <p>
-                        Application de suivi médical pour cliniques et hôpitaux suisses (ProActive
-                        Solution).
-                      </p>
-                      <a
-                        href="https://epi-suisse.ch/fr/"
-                        target="_blank"
-                        class="btn btn-sm btn-dark mt-2"
-                        >Voir le projet</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="project-card-3d">
-                    <div class="project-front">
-                      <div class="project-icon">
-                        <i class="fas fa-heartbeat fa-3x text-red"></i>
-                      </div>
-                      <h3>Autisme Compagnon</h3>
-                      <p>Application mobile de suivi santé</p>
-                      <div class="project-tags">
-                        <span class="project-tag">Flutter</span
-                        ><span class="project-tag">Node.js</span>
-                      </div>
-                    </div>
-                    <div class="project-back">
-                      <p>Interface agents spécialisés, rappels, rapports médicaux sécurisés.</p>
-                      <a
-                        href="https://projet-autisme-compagnons.vercel.app/"
-                        target="_blank"
-                        class="btn btn-sm btn-dark mt-2"
-                        >Voir le projet</a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section id="contact" class="section-card">
-              <div class="section-header">
-                <div class="section-icon"><i class="fas fa-envelope-open-text"></i></div>
-                <h2>Me <span class="text-red">contacter</span></h2>
-                <div class="section-line"></div>
-              </div>
-              <div class="row justify-content-center">
-                <div class="col-lg-12">
-                  <div class="contact-grid">
-                    <div class="contact-item">
-                      <a href="mailto:deto.karamoko19@inphb.ci"
-                        ><i class="fas fa-envelope"></i>
-                        <div>
-                          <h5>Email</h5>
-                          <p>deto.karamoko19@inphb.ci</p>
-                        </div></a
-                      >
-                    </div>
-                    <div class="contact-item">
-                      <a href="tel:+2250546895106"
-                        ><i class="fas fa-phone-alt"></i>
-                        <div>
-                          <h5>Téléphone</h5>
-                          <p>+225 05 46 89 51 06 / 07 49 68 24 61</p>
-                        </div></a
-                      >
-                    </div>
-                    <div class="contact-item">
-                      <a
-                        href="https://www.linkedin.com/in/deto-l%C3%A9andre-karamoko-05ba43258/"
-                        target="_blank"
-                        ><i class="fab fa-linkedin"></i>
-                        <div>
-                          <h5>LinkedIn</h5>
-                          <p>Deto Léandre KARAMOKO</p>
-                        </div></a
-                      >
-                    </div>
-                    <div class="contact-item">
-                      <a href="https://github.com/KARAMOKO-sys" target="_blank"
-                        ><i class="fab fa-github"></i>
-                        <div>
-                          <h5>GitHub</h5>
-                          <p>KARAMOKO-sys</p>
-                        </div></a
-                      >
-                    </div>
-                    <div class="contact-item">
-                      <a href="https://gitlab.com/KARAMOKO-sys" target="_blank"
-                        ><i class="fab fa-gitlab"></i>
-                        <div>
-                          <h5>GitLab</h5>
-                          <p>KARAMOKO-sys</p>
-                        </div></a
-                      >
-                    </div>
-                    <div class="contact-item">
-                      <a href="https://karamoko-sys.github.io/portfolio/" target="_blank"
-                        ><i class="fas fa-globe"></i>
-                        <div>
-                          <h5>Portfolio</h5>
-                          <p>karamoko-sys.github.io</p>
-                        </div></a
-                      >
-                    </div>
-                    <div class="contact-item">
-                      <a href="https://x.com/leandee99707" target="_blank"
-                        ><i class="fab fa-twitter"></i>
-                        <div>
-                          <h5>X (Twitter)</h5>
-                          <p>@leandee99707</p>
-                        </div></a
-                      >
-                    </div>
-                  </div>
-                  <div class="text-center mt-5">
-                    <a href="mailto:deto.karamoko19@inphb.ci" class="btn btn-red btn-lg contact-btn"
-                      ><i class="fas fa-paper-plane me-2"></i>Envoyez-moi un email</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path
+        fill="#0a0e27"
+        fill-opacity="1"
+        d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+      ></path>
+    </svg>
+  </div>
+</header>
 
-      <footer class="footer">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start">
-              <p class="mb-0 text-white-70">
-                &copy; 2025 DETO Léandre KARAMOKO - Ingénieur Full-Stack & Tech Lead
-              </p>
-            </div>
-            <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-              <a
-                href="https://www.linkedin.com/in/deto-l%C3%A9andre-karamoko-05ba43258/"
-                target="_blank"
-                class="social-icon"
-                ><i class="fab fa-linkedin-in"></i
-              ></a>
-              <a href="https://github.com/KARAMOKO-sys" target="_blank" class="social-icon"
-                ><i class="fab fa-github"></i
-              ></a>
-              <a href="https://x.com/leandee99707" target="_blank" class="social-icon"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <a href="https://gitlab.com/KARAMOKO-sys" target="_blank" class="social-icon"
-                ><i class="fab fa-gitlab"></i
-              ></a>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg sticky-nav" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#"
+      ><i class="fas fa-laptop-code me-2 text-red"></i>KARAMOKO</a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#about"
+            ><i class="fas fa-user me-1 text-red"></i>{{ translations[currentLang]['nav_about']
+            }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#skills"
+            ><i class="fas fa-code me-1 text-red"></i>{{ translations[currentLang]['nav_skills']
+            }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#experience"
+            ><i class="fas fa-briefcase me-1 text-red"></i>{{
+            translations[currentLang]['nav_experience'] }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#certifications"
+            ><i class="fas fa-certificate me-1 text-red"></i>{{
+            translations[currentLang]['nav_certifications'] }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#projects"
+            ><i class="fas fa-rocket me-1 text-red"></i>{{ translations[currentLang]['nav_projects']
+            }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact"
+            ><i class="fas fa-envelope me-1 text-red"></i>{{
+            translations[currentLang]['nav_contact'] }}</a
+          >
+        </li>
+        <li class="nav-item ms-2">
+          <button
+            class="btn btn-sm btn-red"
+            (click)="toggleLanguage()"
+            style="border-radius: 20px; padding: 5px 15px"
+          >
+            <i class="fas fa-globe me-1"></i>{{ currentLang === 'en' ? 'FR' : 'EN' }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <!-- Section À propos / About -->
+      <section id="about" class="section-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-user-astronaut"></i></div>
+          <h2>{{ translations[currentLang]['about_title'] }}</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-lg-12">
+            <p class="about-text lead text-center" style="color: #0a0e27; font-weight: 500">
+              {{ translations[currentLang]['about_text'] }}
+            </p>
+            <div class="row mt-5">
+              <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                  <div class="stat-number">4+</div>
+                  <div class="stat-label">{{ translations[currentLang]['about_exp'] }}</div>
+                  <i class="fas fa-calendar-alt stat-icon"></i>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                  <div class="stat-number">20+</div>
+                  <div class="stat-label">{{ translations[currentLang]['about_projects'] }}</div>
+                  <i class="fas fa-tasks stat-icon"></i>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                  <div class="stat-number">15+</div>
+                  <div class="stat-label">{{ translations[currentLang]['about_certs'] }}</div>
+                  <i class="fas fa-certificate stat-icon"></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </footer>
-    </main>
+      </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init({ duration: 800, once: false, mirror: true, offset: 50 });
+      <!-- Section Compétences / Skills -->
+      <section id="skills" class="section-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-microchip"></i></div>
+          <h2>{{ translations[currentLang]['skills_title'] }}</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="skills-container">
+          <div class="skill-category">
+            <h4><i class="fas fa-code text-red me-2"></i>Backend</h4>
+            <div class="skills-list">
+              <span class="skill-tag"><i class="fab fa-java me-1"></i>Java 17 / Spring Boot</span>
+              <span class="skill-tag"><i class="fab fa-node-js me-1"></i>NestJS / Node.js</span>
+              <span class="skill-tag"><i class="fab fa-php me-1"></i>Laravel / PHP</span>
+              <span class="skill-tag"
+                ><i class="fas fa-database me-1"></i>{{
+                translations[currentLang]['skills_microservices'] }}</span
+              >
+            </div>
+          </div>
+          <div class="skill-category">
+            <h4><i class="fas fa-laptop-code text-red me-2"></i>Frontend</h4>
+            <div class="skills-list">
+              <span class="skill-tag"><i class="fab fa-angular me-1"></i>Angular 16+</span>
+              <span class="skill-tag"><i class="fab fa-react me-1"></i>React 18</span>
+              <span class="skill-tag"><i class="fab fa-vuejs me-1"></i>Vue.js 3</span>
+              <span class="skill-tag"><i class="fab fa-flutter me-1"></i>Flutter 3.x</span>
+              <span class="skill-tag"><i class="fab fa-js me-1"></i>TypeScript 5.x</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <h4><i class="fas fa-cloud text-red me-2"></i>DevOps & Cloud</h4>
+            <div class="skills-list">
+              <span class="skill-tag"><i class="fab fa-docker me-1"></i>Docker / Kubernetes</span>
+              <span class="skill-tag"><i class="fab fa-gitlab me-1"></i>GitLab CI/CD</span>
+              <span class="skill-tag"><i class="fab fa-jenkins me-1"></i>Jenkins</span>
+              <span class="skill-tag"><i class="fab fa-microsoft me-1"></i>Azure / AWS</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <h4>
+              <i class="fas fa-shield-alt text-red me-2"></i>{{
+              translations[currentLang]['skills_arch'] }}
+            </h4>
+            <div class="skills-list">
+              <span class="skill-tag"
+                ><i class="fas fa-draw-polygon me-1"></i>{{
+                translations[currentLang]['skills_clean'] }}</span
+              >
+              <span class="skill-tag"><i class="fas fa-lock me-1"></i>COBIT 2019</span>
+              <span class="skill-tag"><i class="fas fa-shield-virus me-1"></i>OWASP Top 10</span>
+              <span class="skill-tag"><i class="fab fa-react me-1"></i>Agile / Scrum</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      const sections = document.querySelectorAll('section[id]');
-      const navLinks = document.querySelectorAll('.nav-link');
+      <!-- Section Expérience / Experience -->
+      <section id="experience" class="section-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-briefcase"></i></div>
+          <h2>{{ translations[currentLang]['exp_title'] }}</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-badge"><i class="fas fa-star"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Mars 2025 – Présent</div>
+              <h4>{{ translations[currentLang]['exp_lead_title'] }}</h4>
+              <h5>
+                <i class="fas fa-building me-2"></i
+                ><a
+                  href="https://sonecafrica.com"
+                  target="_blank"
+                  style="color: var(--red); text-decoration: none"
+                  >SONEC AFRICA SA</a
+                >
+                | Abidjan
+              </h5>
+              <p>{{ translations[currentLang]['exp_lead_desc'] }}</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-badge"><i class="fas fa-code"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Avr. 2023 – Oct. 2025</div>
+              <h4>{{ translations[currentLang]['exp_fullstack_title'] }}</h4>
+              <h5>
+                <i class="fas fa-building me-2"></i
+                ><a href="https://kyria-ci.com" target="_blank" style="color: var(--red)"
+                  >INEXA CI / Kyria</a
+                >
+              </h5>
+              <p>{{ translations[currentLang]['exp_fullstack_desc'] }}</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-badge"><i class="fas fa-chart-line"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Jan. 2023 – Oct. 2025</div>
+              <h4>{{ translations[currentLang]['exp_consultant_title'] }}</h4>
+              <h5>
+                <i class="fas fa-building me-2"></i
+                ><a href="https://growing-consulting.ch" target="_blank" style="color: var(--red)"
+                  >Growing Consulting (Suisse)</a
+                >
+                &
+                <a href="https://proactive-solution.ch" target="_blank" style="color: var(--red)"
+                  >ProActive Solution</a
+                >
+              </h5>
+              <p>{{ translations[currentLang]['exp_consultant_desc'] }}</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-badge"><i class="fas fa-graduation-cap"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Mars 2022 – Jan. 2023</div>
+              <h4>{{ translations[currentLang]['exp_dev_title'] }}</h4>
+              <h5>
+                <i class="fas fa-building me-2"></i
+                ><a href="https://synelia.com" target="_blank" style="color: var(--red)"
+                  >Smile Côte d'Ivoire / Synelia</a
+                >
+              </h5>
+              <p>{{ translations[currentLang]['exp_dev_desc'] }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      function updateActiveLink() {
-        let scrollPos = window.scrollY + 120;
-        let currentSection = '';
-        sections.forEach((section) => {
-          const sectionTop = section.offsetTop;
-          const sectionBottom = sectionTop + section.offsetHeight;
-          if (scrollPos >= sectionTop && scrollPos <= sectionBottom) {
-            currentSection = section.getAttribute('id');
-          }
-        });
-        if (!currentSection && window.scrollY < 200) currentSection = 'about';
+      <!-- Section Certifications -->
+      <section id="certifications" class="section-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-certificate"></i></div>
+          <h2>{{ translations[currentLang]['cert_title'] }}</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="cert-grid">
+          <div class="cert-item">
+            <a
+              href="https://www.udemy.com/certificate/UC-c913bf3a-c105-487a-b33c-80997737e1df/"
+              target="_blank"
+              ><i class="fas fa-shield-alt"></i><span>COBIT 2019 Foundation</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a
+              href="https://learn.microsoft.com/fr-fr/users/karamokodetoleandre-8071/credentials/certification/azure-data-fundamentals"
+              target="_blank"
+              ><i class="fab fa-microsoft"></i><span>Microsoft Azure AZ-900</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a
+              href="https://www.udemy.com/certificate/UC-0478fdd6-b46a-4a65-b249-2228ef43704c/"
+              target="_blank"
+              ><i class="fas fa-tasks"></i
+              ><span>{{ translations[currentLang]['cert_pm'] }}</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a
+              href="https://formation.force-n.sn/mod/customcert/my_certificates.php?userid=27969&certificateid=37&downloadcert=1"
+              target="_blank"
+              ><i class="fas fa-chart-bar"></i
+              ><span>{{ translations[currentLang]['cert_data'] }}</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a
+              href="https://formation.force-n.sn/mod/customcert/verify_certificate.php?contextid=249821&code=ePpnMwfQ3e"
+              target="_blank"
+              ><i class="fas fa-robot"></i
+              ><span>{{ translations[currentLang]['cert_ai'] }}</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a
+              href="https://formation.force-n.sn/mod/customcert/verify_certificate.php?contextid=248505&code=CcbkQsMBqF"
+              target="_blank"
+              ><i class="fab fa-angular"></i
+              ><span>{{ translations[currentLang]['cert_angular'] }}</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a href="https://www.sololearn.com/certificates/CC-BKZFJ5JV" target="_blank"
+              ><i class="fab fa-python"></i><span>Python Intermediate (SoloLearn)</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a href="https://www.sololearn.com/certificates/CC-0FNWKPB4" target="_blank"
+              ><i class="fab fa-js"></i><span>JavaScript (SoloLearn)</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a href="https://www.sololearn.com/certificates/CC-YYEMHSVT" target="_blank"
+              ><i class="fab fa-python"></i><span>Python (SoloLearn)</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a
+              href="https://www.sololearn.com/certificates/course/en/25337188/1060/landscape/pdf"
+              target="_blank"
+              ><i class="fab fa-php"></i><span>PHP (SoloLearn)</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a href="https://www.sololearn.com/Certificate/1092-25337188/pdf/" target="_blank"
+              ><i class="fab fa-angular"></i><span>Angular + NestJS (SoloLearn)</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a href="https://www.sololearn.com/Certificate/1014-25337188/pdf/" target="_blank"
+              ><i class="fab fa-html5"></i><span>HTML (SoloLearn)</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a href="https://www.sololearn.com/Certificate/1023-25337188/pdf/" target="_blank"
+              ><i class="fab fa-css3-alt"></i><span>CSS (SoloLearn)</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a
+              href="https://certificate-staging.evidenz.io/check/15BFEE2C2D2318BFE311D32B4916F0DF62BE10BD8CF21C213174C2C80F733EDDRXJNU0R3clpYZEJsTWpWZmRJRVNsTDc0VXU1OFJLbVdzNnpCL01lRDNNQ2JxSTl0"
+              target="_blank"
+              ><i class="fab fa-bitcoin"></i><span>Blockchain (Binance Academy)</span></a
+            >
+          </div>
+          <div class="cert-item">
+            <a
+              href="https://openclassrooms.com/fr/courses/2434016/certificate_example"
+              target="_blank"
+              ><i class="fab fa-java"></i><span>Java EE (OpenClassrooms)</span></a
+            >
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <p class="text-white-80" style="color: #2c2c3a !important">
+            <i class="fas fa-graduation-cap text-red me-2"></i>{{
+            translations[currentLang]['cert_training'] }} :
+            <strong>Université Numérique Force N</strong> |
+            <a href="https://2ie-edu.org" target="_blank" style="color: var(--red)">2iE</a> |
+            <a href="https://inphb.ci" target="_blank" style="color: var(--red)">INPHB</a> |
+            <a href="https://orange-digital-center.com" target="_blank" style="color: var(--red)"
+              >Orange Digital Center</a
+            >
+          </p>
+        </div>
+      </section>
 
-        navLinks.forEach((link) => {
-          link.classList.remove('active');
-          const href = link.getAttribute('href').substring(1);
-          if (href === currentSection) {
-            link.classList.add('active');
-          }
-        });
-      }
+      <!-- Section Projets / Projects -->
+      <section id="projects" class="section-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-rocket"></i></div>
+          <h2>{{ translations[currentLang]['projects_title'] }}</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card-3d">
+              <div class="project-front">
+                <div class="project-icon"><i class="fas fa-exchange-alt fa-3x text-red"></i></div>
+                <h3>OSKAR</h3>
+                <p>{{ translations[currentLang]['project_oskar'] }}</p>
+                <div class="project-tags">
+                  <span class="project-tag">Angular</span
+                  ><span class="project-tag">Spring Boot</span>
+                </div>
+              </div>
+              <div class="project-back">
+                <p>{{ translations[currentLang]['project_oskar_desc'] }}</p>
+                <a
+                  href="https://oskar.mysonec.pro/"
+                  target="_blank"
+                  class="btn btn-sm btn-dark mt-2"
+                  >{{ translations[currentLang]['project_view'] }}</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card-3d">
+              <div class="project-front">
+                <div class="project-icon"><i class="fas fa-university fa-3x text-red"></i></div>
+                <h3>INFAS</h3>
+                <p>{{ translations[currentLang]['project_infas'] }}</p>
+                <div class="project-tags">
+                  <span class="project-tag">Angular</span
+                  ><span class="project-tag">Spring Boot</span>
+                </div>
+              </div>
+              <div class="project-back">
+                <p>{{ translations[currentLang]['project_infas_desc'] }}</p>
+                <a
+                  href="https://infas.ciconcours.com"
+                  target="_blank"
+                  class="btn btn-sm btn-dark mt-2"
+                  >{{ translations[currentLang]['project_view'] }}</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card-3d">
+              <div class="project-front">
+                <div class="project-icon"><i class="fas fa-chart-line fa-3x text-red"></i></div>
+                <h3>INSFS</h3>
+                <p>{{ translations[currentLang]['project_insfs'] }}</p>
+                <div class="project-tags">
+                  <span class="project-tag">React</span><span class="project-tag">NestJS</span>
+                </div>
+              </div>
+              <div class="project-back">
+                <p>{{ translations[currentLang]['project_insfs_desc'] }}</p>
+                <a
+                  href="https://insfs.ciconcours.com"
+                  target="_blank"
+                  class="btn btn-sm btn-dark mt-2"
+                  >{{ translations[currentLang]['project_view'] }}</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card-3d">
+              <div class="project-front">
+                <div class="project-icon"><i class="fas fa-leaf fa-3x text-red"></i></div>
+                <h3>Orange Summer</h3>
+                <p>{{ translations[currentLang]['project_orange'] }}</p>
+                <div class="project-tags">
+                  <span class="project-tag">IoT</span><span class="project-tag">GreenTech</span>
+                </div>
+              </div>
+              <div class="project-back">
+                <p>{{ translations[currentLang]['project_orange_desc'] }}</p>
+                <a
+                  href="https://osc.gos.orange.com/"
+                  target="_blank"
+                  class="btn btn-sm btn-dark mt-2"
+                  >{{ translations[currentLang]['project_view'] }}</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card-3d">
+              <div class="project-front">
+                <div class="project-icon"><i class="fas fa-mobile-alt fa-3x text-red"></i></div>
+                <h3>EPI-DUI</h3>
+                <p>{{ translations[currentLang]['project_epi'] }}</p>
+                <div class="project-tags">
+                  <span class="project-tag">Flutter</span><span class="project-tag">Laravel</span>
+                </div>
+              </div>
+              <div class="project-back">
+                <p>{{ translations[currentLang]['project_epi_desc'] }}</p>
+                <a href="https://epi-suisse.ch/fr/" target="_blank" class="btn btn-sm btn-dark mt-2"
+                  >{{ translations[currentLang]['project_view'] }}</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card-3d">
+              <div class="project-front">
+                <div class="project-icon"><i class="fas fa-heartbeat fa-3x text-red"></i></div>
+                <h3>{{ translations[currentLang]['project_autisme'] }}</h3>
+                <p>{{ translations[currentLang]['project_autisme_desc'] }}</p>
+                <div class="project-tags">
+                  <span class="project-tag">Flutter</span><span class="project-tag">Node.js</span>
+                </div>
+              </div>
+              <div class="project-back">
+                <p>{{ translations[currentLang]['project_autisme_back'] }}</p>
+                <a
+                  href="https://projet-autisme-compagnons.vercel.app/"
+                  target="_blank"
+                  class="btn btn-sm btn-dark mt-2"
+                  >{{ translations[currentLang]['project_view'] }}</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      window.addEventListener('scroll', updateActiveLink);
-      window.addEventListener('load', updateActiveLink);
+      <!-- Section Contact -->
+      <section id="contact" class="section-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-envelope-open-text"></i></div>
+          <h2>{{ translations[currentLang]['contact_title'] }}</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-12">
+            <div class="contact-grid">
+              <div class="contact-item">
+                <a href="mailto:deto.karamoko19@inphb.ci"
+                  ><i class="fas fa-envelope"></i>
+                  <div>
+                    <h5>{{ translations[currentLang]['contact_email'] }}</h5>
+                    <p>deto.karamoko19@inphb.ci</p>
+                  </div></a
+                >
+              </div>
+              <div class="contact-item">
+                <a href="tel:+2250546895106"
+                  ><i class="fas fa-phone-alt"></i>
+                  <div>
+                    <h5>{{ translations[currentLang]['contact_phone'] }}</h5>
+                    <p>+225 05 46 89 51 06 / 07 49 68 24 61</p>
+                  </div></a
+                >
+              </div>
+              <div class="contact-item">
+                <a
+                  href="https://www.linkedin.com/in/deto-l%C3%A9andre-karamoko-05ba43258/"
+                  target="_blank"
+                  ><i class="fab fa-linkedin"></i>
+                  <div>
+                    <h5>LinkedIn</h5>
+                    <p>Deto Léandre KARAMOKO</p>
+                  </div></a
+                >
+              </div>
+              <div class="contact-item">
+                <a href="https://github.com/KARAMOKO-sys" target="_blank"
+                  ><i class="fab fa-github"></i>
+                  <div>
+                    <h5>GitHub</h5>
+                    <p>KARAMOKO-sys</p>
+                  </div></a
+                >
+              </div>
+              <div class="contact-item">
+                <a href="https://gitlab.com/KARAMOKO-sys" target="_blank"
+                  ><i class="fab fa-gitlab"></i>
+                  <div>
+                    <h5>GitLab</h5>
+                    <p>KARAMOKO-sys</p>
+                  </div></a
+                >
+              </div>
+              <div class="contact-item">
+                <a href="https://karamoko-sys.github.io/portfolio/" target="_blank"
+                  ><i class="fas fa-globe"></i>
+                  <div>
+                    <h5>{{ translations[currentLang]['contact_portfolio'] }}</h5>
+                    <p>karamoko-sys.github.io</p>
+                  </div></a
+                >
+              </div>
+              <div class="contact-item">
+                <a href="https://x.com/leandee99707" target="_blank"
+                  ><i class="fab fa-twitter"></i>
+                  <div>
+                    <h5>X (Twitter)</h5>
+                    <p>@leandee99707</p>
+                  </div></a
+                >
+              </div>
+            </div>
+            <div class="text-center mt-5">
+              <a
+                href="mailto:deto.karamoko19@inphb.ci"
+                class="btn btn-red btn-lg contact-btn rounded-pill"
+                ><i class="fas fa-paper-plane me-2"></i>{{ translations[currentLang]['contact_send']
+                }}</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
 
-      window.addEventListener('scroll', function () {
-        const nav = document.querySelector('.sticky-nav');
-        if (window.scrollY > 50) nav.classList.add('scrolled');
-        else nav.classList.remove('scrolled');
-      });
-    </script>
-  </body>
-</html>
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start">
+        <p class="mb-0 text-white">
+          &copy; 2025 DETO Léandre KARAMOKO - {{ translations[currentLang]['footer_title'] }}
+        </p>
+      </div>
+      <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+        <a
+          href="https://www.linkedin.com/in/deto-l%C3%A9andre-karamoko-05ba43258/"
+          target="_blank"
+          class="social-icon"
+          ><i class="fab fa-linkedin-in"></i
+        ></a>
+        <a href="https://github.com/KARAMOKO-sys" target="_blank" class="social-icon"
+          ><i class="fab fa-github"></i
+        ></a>
+        <a href="https://x.com/leandee99707" target="_blank" class="social-icon"
+          ><i class="fab fa-twitter"></i
+        ></a>
+        <a href="https://gitlab.com/KARAMOKO-sys" target="_blank" class="social-icon"
+          ><i class="fab fa-gitlab"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+</footer>
